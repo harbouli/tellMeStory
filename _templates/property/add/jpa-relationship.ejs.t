@@ -5,6 +5,9 @@ after: "private LocalDateTime updatedAt;"
 skip_if: <%= propertyType !== 'Relationship' %>
 ---
 
+<% if (relationshipDescription) { -%>
+    // <%= relationshipDescription %>
+<% } -%>
 <% if (relationshipType === 'OneToOne') { -%>
     @OneToOne<% if (fetchType !== 'LAZY') { %>(fetch = FetchType.<%= fetchType %>)<% } %><% if (cascadeType !== 'NONE') { %>(cascade = CascadeType.<%= cascadeType %>)<% } %>
     <% if (joinColumnName) { -%>

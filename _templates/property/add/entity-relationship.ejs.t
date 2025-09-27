@@ -4,6 +4,9 @@ inject: true
 after: "private final LocalDateTime updatedAt;"
 skip_if: <%= propertyType !== 'Relationship' %>
 ---
+<% if (relationshipDescription) { -%>
+    // <%= relationshipDescription %>
+<% } -%>
 <% if (relationshipType === 'OneToMany' || relationshipType === 'ManyToMany') { -%>
     private final List<<%= relatedEntity %>> <%= propertyName %>;
 <% } else { -%>

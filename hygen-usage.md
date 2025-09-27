@@ -61,7 +61,23 @@ hygen module new
 - REST controller with DTOs
 - Complete CRUD operations
 
+### 3. Generate Database Seed
+
+Creates seed data for populating your database with initial/test data.
+
+```bash
+hygen seed new
+```
+
+**What it generates:**
+- Seed service with realistic sample data
+- Configuration for different environments
+- REST endpoint for manual seeding
+- Optional automatic seeding on startup
+
 **Example Usage:**
+
+*Creating a new module:*
 ```bash
 $ hygen module new
 ? Module name (PascalCase, e.g., Comment, Category): Comment
@@ -72,6 +88,21 @@ $ hygen module new
   ◉ Service layer
   ◉ REST Controller
   ◉ DTOs/Commands
+```
+
+*Creating seed data:*
+```bash
+$ hygen seed new
+? Seed name (e.g., InitialUsers, SampleStories): InitialData
+? Seed description: Development seed data
+? Select entities to seed: 
+  ◉ User entities
+  ◉ Story entities
+  ◯ Comment entities
+? Number of users to create: 10
+? Number of stories to create: 25
+? Run this seed automatically on application startup? No
+? Run seed in which environments? development
 ```
 
 ## Generated Structure
