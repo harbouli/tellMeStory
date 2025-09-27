@@ -50,29 +50,87 @@ module.exports = [
     type: 'select',
     name: 'propertyType',
     message: 'Property type:',
-    choices: ['String', 'Integer', 'Long', 'Boolean', 'LocalDateTime', 'BigDecimal']
+    choices: ['String', 'Integer', 'Long', 'Boolean', 'LocalDateTime', 'BigDecimal', 'Relationship']
+  },
+  {
+    type: 'select',
+    name: 'relationshipType',
+    message: 'What type of relationship?',
+    choices: ['OneToOne', 'OneToMany', 'ManyToOne', 'ManyToMany'],
+    when: (answers) => answers.propertyType === 'Relationship'
+  },
+  {
+    type: 'select',
+    name: 'relatedEntity',
+    message: 'Related entity:',
+    choices: (answers) => getAvailableEntities().filter(entity => entity !== answers.entity),
+    when: (answers) => answers.propertyType === 'Relationship'
+  },
+  {
+    type: 'confirm',
+    name: 'bidirectional',
+    message: 'Is this a bidirectional relationship?',
+    initial: false,
+    when: (answers) => answers.propertyType === 'Relationship'
+  },
+  {
+    type: 'input',
+    name: 'mappedBy',
+    message: 'Mapped by property name (for bidirectional):',
+    when: (answers) => answers.propertyType === 'Relationship' && answers.bidirectional
   },
   {
     type: 'input',
     name: 'columnName',
-    message: 'Database column name (snake_case, leave empty for auto-generated):'
+    message: 'Database column name (snake_case, leave empty for auto-generated):',
+    when: (answers) => answers.propertyType !== 'Relationship'
+  },
+  {
+    type: 'input',
+    name: 'joinColumnName',
+    message: 'Join column name (for foreign key, leave empty for auto-generated):',
+    when: (answers) => answers.propertyType === 'Relationship' && ['OneToOne', 'ManyToOne'].includes(answers.relationshipType)
+  },
+  {
+    type: 'input',
+    name: 'joinTableName',
+    message: 'Join table name (for ManyToMany, leave empty for auto-generated):',
+    when: (answers) => answers.propertyType === 'Relationship' && answers.relationshipType === 'ManyToMany'
   },
   {
     type: 'confirm',
     name: 'nullable',
     message: 'Is this property nullable?',
-    initial: false
+    initial: false,
+    when: (answers) => answers.propertyType !== 'Relationship'
   },
   {
     type: 'confirm',
     name: 'unique',
     message: 'Should this property be unique?',
-    initial: false
+    initial: false,
+    when: (answers) => answers.propertyType !== 'Relationship'
   },
   {
     type: 'input',
     name: 'length',
     message: 'Max length (for String types, leave empty for default):',
-    skip: (answers) => !['String'].includes(answers.propertyType)
+    when: (answers) => answers.propertyType === 'String'
+  },
+  {
+    type: 'select',
+    name: 'fetchType',
+    message: 'Fetch type for relationship:',
+    choices: ['LAZY', 'EAGER'],
+    initial: 'LAZY',
+    when: (answers) => answers.propertyType === 'Relationship'
+  },
+  {
+    type: 'select',
+    name: 'cascadeType',
+    message: 'Cascade type:',
+    choices: ['NONE', 'ALL', 'PERSIST', 'MERGE', 'REMOVE', 'REFRESH', 'DETACH'],
+    initial: 'NONE',
+    when: (answers) => answers.propertyType === 'Relationship'
   }
 ]
