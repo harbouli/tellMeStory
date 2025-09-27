@@ -1,7 +1,4 @@
----
-to: _prompts
----
-[
+module.exports = [
   {
     type: 'input',
     name: 'moduleName',

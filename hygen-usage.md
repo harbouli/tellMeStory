@@ -20,6 +20,8 @@ hygen property add
 - Handles validation and constraints
 
 **Example Usage:**
+
+*Adding a simple property:*
 ```bash
 $ hygen property add
 ? Which entity to add property to? Story
@@ -28,6 +30,20 @@ $ hygen property add
 ? Database column name (snake_case, leave empty for auto-generated): 
 ? Is this property nullable? No
 ? Should this property be unique? No
+```
+
+*Adding a relationship:*
+```bash
+$ hygen property add
+? Which entity to add property to? Story
+? Property name (camelCase): comments
+? Property type: Relationship
+? What type of relationship? OneToMany
+? Related entity: Comment
+? Is this a bidirectional relationship? Yes
+? Mapped by property name (for bidirectional): story
+? Fetch type for relationship: LAZY
+? Cascade type: ALL
 ```
 
 ### 2. Generate New Module
@@ -99,6 +115,9 @@ For each new module, the following REST endpoints are created:
 
 ### Property Generator Features:
 - ✅ Supports all major Java types
+- ✅ **Entity Relationships** (OneToOne, OneToMany, ManyToOne, ManyToMany)
+- ✅ **Bidirectional relationships** with proper mapping
+- ✅ **JPA annotations** (fetch types, cascade, join columns)
 - ✅ Database constraints (nullable, unique, length)
 - ✅ Automatic snake_case column naming
 - ✅ Updates all related files consistently
